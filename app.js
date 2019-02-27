@@ -49,7 +49,7 @@ const getMatchInfo = async name => {
           });
           if (result) {
             time = $(match).find('.cResultMatchTime').text()
-            time = moment(parseInt(time) * 1000).format('MM-DD HH:mm')
+            time = moment(parseInt(time) * 1000 + 8 * 3600 * 1000).format('MM-DD HH:mm')
             resolve(time)
           }
         })

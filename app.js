@@ -12,6 +12,7 @@ app.use(bodyParser())
 app.use(paramsParser())
 
 router.get('/matchInfo', async ctx => {
+  console.log(ctx.params.player)
   result = await getMatchInfo(ctx.params.player)
   ctx.body = result
 })

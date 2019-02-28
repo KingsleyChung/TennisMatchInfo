@@ -24,7 +24,11 @@ app.listen(3000, () => {
 })
 
 const getMatchInfo = async name => {
-  let date = moment(new Date()).format('YYYY-MM-DD')
+  let date = new Date()
+  let timeOffset = date.getTimezoneOffset() / 60
+  console.log(timeOffset)
+  date = moment(date.getTime() + (timeOffset + 8) * 3600 * 1000).format('YYYY-MM-DD')
+  console.log(date)
   let url = `https://coric.top/zh/result/${date}`
 
   return new Promise((resolve, reject) => {
@@ -50,7 +54,7 @@ const getMatchInfo = async name => {
           });
           if (result) {
             time = $(match).find('.cResultMatchTime').text()
-            time = moment(parseInt(time) * 1000 + 8 * 3600 * 1000).format('MM-DD HH:mm')
+            time = moment(parseInt(time) * 1000 + (timeOffset + 8) * 3600 * 1000).format('MM-DD HH:mm')
             resolve(time)
           }
         })

@@ -32,11 +32,19 @@ const getRecentMatchInfo = async name => {
   let todayMatchTime = moment(convertToBeijingTime(await getMatchInfoOfDate(name, today), timeOffset)).format('MM-DD HH:mm')
   if (date.getHours() >= 18) {
     let tomorrow = moment(date.getTime() + 24 * 3600 * 1000).format('YYYY-MM-DD')
-    let tomorrowMatchTime = moment(convertToBeijingTime(await getMatchInfoOfDate(name, tomorrow), timeOffset)).format('MM-DD HH:mm')
+    let matchTime = await getMatchInfoOfDate(name, tomorrow)
+    let tomorrowMatchTime = matchTime
+    if (tomorrowMatchTime != '没有比赛') {
+      tomorrowMatchTime = moment(convertToBeijingTime(tomorrowMatchTime, timeOffset)).format('MM-DD HH:mm')
+    }
     return todayMatchTime + '; ' + tomorrowMatchTime
   } else {
     let yesterday = moment(date.getTime() - 24 * 3600 * 1000).format('YYYY-MM-DD')
-    let yesterdayMatchTime = moment(convertToBeijingTime(await getMatchInfoOfDate(name, yesterday), timeOffset)).format('MM-DD HH:mm')
+    let matchTime = await getMatchInfoOfDate(name, yesterday)
+    let yesterdayMatchTime = matchTime
+    if (yesterdayMatchTime != '没有比赛') {
+      yesterdayMatchTime = moment(convertToBeijingTime(yesterdayMatchTime, timeOffset)).format('MM-DD HH:mm')
+    }
     return yesterdayMatchTime + '\n' + todayMatchTime
   }
 }

@@ -29,7 +29,11 @@ const getRecentMatchInfo = async name => {
   let timeOffset = date.getTimezoneOffset() / 60
   date = convertToBeijingTime(date.getTime(), timeOffset, 'YYYY-MM-DD')
   let today = moment(date).format('YYYY-MM-DD')
-  let todayMatchTime = moment(convertToBeijingTime(await getMatchInfoOfDate(name, today), timeOffset)).format('MM-DD HH:mm')
+  let matchTime = await getMatchInfoOfDate(name, today)
+  let todayMatchTime = matchTime
+  if (todayMatchTime != '没有比赛') {
+    todayMatchTime = moment(convertToBeijingTime(await getMatchInfoOfDate(name, today), timeOffset)).format('MM-DD HH:mm')
+  }
   if (date.getHours() >= 18) {
     let tomorrow = moment(date.getTime() + 24 * 3600 * 1000).format('YYYY-MM-DD')
     let matchTime = await getMatchInfoOfDate(name, tomorrow)
